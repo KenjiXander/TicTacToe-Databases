@@ -11,8 +11,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,7 @@ import java.util.Optional;
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Tic Tac Toe")
 @Component
-public class MyMainView extends VerticalLayout {
+public class MyMainView extends VerticalLayout implements HasUrlParameter<String> {
 
     private TextField nombreJugador1;
     private TextField nombreJugador2;
@@ -63,6 +62,31 @@ public class MyMainView extends VerticalLayout {
         actualizarListaJugadores();
     }
 
+    @Override
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+        System.out.println("setParameter called with: " + parameter);
+        if ("reset".equals(parameter)) {
+            resetView();
+        }
+    }
+
+    private void resetView() {
+        nombreJugador1.clear();
+        nombreJugador2.clear();
+        jugadorSeleccionado1 = null;
+        jugadorSeleccionado2 = null;
+        actualizarListaJugadores();
+        // Asegúrate de que no haya selección actual en gridJugadores
+        gridJugadores.deselectAll();
+
+        contentLayout.removeAll();
+        Button registrarJugador1 = new Button("Registrar", e -> elegirSimbolo());
+        contentLayout.add(nombreJugador1, registrarJugador1);
+        contentLayout.add(gridJugadores); // Asegúrate de añadir de nuevo gridJugadores si es necesario
+    }
+
+
+
     private void elegirSimbolo() {
         if (!nombreJugador1.getValue().trim().isEmpty()) {
             contentLayout.removeAll();
@@ -98,10 +122,27 @@ public class MyMainView extends VerticalLayout {
         actualizarListaJugadores2(); // Método para actualizar la lista excluyendo al jugador 1 seleccionado
     }
 
+
+
     private void seleccionarJugador2(Jugador jugador) {
-        jugadorSeleccionado2 = jugador;
-        nombreJugador2.setValue(jugador.getNombre());
+        if (jugador != null) {
+            jugadorSeleccionado2 = jugador;
+            nombreJugador2.setValue(jugador.getNombre());
+        } else {
+            // Manejar el caso en que jugador es null
+            nombreJugador2.clear();
+            jugadorSeleccionado2 = null;
+        }
     }
+
+
+
+
+
+//    private void seleccionarJugador2(Jugador jugador) {
+//        jugadorSeleccionado2 = jugador;
+//        nombreJugador2.setValue(jugador.getNombre());
+//    }
 
     private void actualizarListaJugadores2() {
         List<Jugador> jugadores = jugadorService.findAllJugadores();

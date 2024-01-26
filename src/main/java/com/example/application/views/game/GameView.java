@@ -255,8 +255,10 @@ public class GameView extends VerticalLayout implements HasUrlParameter<String> 
 
     private Button crearBotonRegreso() {
         Button botonRegreso = new Button("Regresar a escoger jugador");
-        botonRegreso.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate(MyMainView.class)));
+        botonRegreso.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate(MyMainView.class, "reset")));
         return botonRegreso;
     }
+
+
 
 }
