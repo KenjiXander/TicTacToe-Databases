@@ -75,15 +75,21 @@ public class MyMainView extends VerticalLayout implements HasUrlParameter<String
         nombreJugador2.clear();
         jugadorSeleccionado1 = null;
         jugadorSeleccionado2 = null;
-        actualizarListaJugadores();
-        // Asegúrate de que no haya selección actual en gridJugadores
-        gridJugadores.deselectAll();
 
         contentLayout.removeAll();
+
         Button registrarJugador1 = new Button("Registrar", e -> elegirSimbolo());
-        contentLayout.add(nombreJugador1, registrarJugador1);
-        contentLayout.add(gridJugadores); // Asegúrate de añadir de nuevo gridJugadores si es necesario
+
+        // Reiniciar y configurar nuevamente el grid de jugadores
+        gridJugadores = new Grid<>(Jugador.class);
+        gridJugadores.setColumns("nombre");
+        gridJugadores.asSingleSelect().addValueChangeListener(event -> seleccionarJugador(event.getValue()));
+
+        contentLayout.add(nombreJugador1, registrarJugador1, gridJugadores);
+
+        actualizarListaJugadores();
     }
+
 
 
 
