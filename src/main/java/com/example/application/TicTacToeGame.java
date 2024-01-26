@@ -1,5 +1,7 @@
 package com.example.application;
 
+import com.example.application.service.JugadorService;
+
 public class TicTacToeGame {
 
     private final String ESPACIO_VACIO = " ";
@@ -119,6 +121,18 @@ public class TicTacToeGame {
         // Reinicia el símbolo del jugador actual al símbolo del jugador inicial
         jugadorActual = simboloJugadorPrincipio;
     }
+
+    // Suponiendo que tienes acceso a JugadorService en TicTacToeGame
+    private JugadorService jugadorService;
+
+    public void actualizarEstadisticasVictoria(String nombreGanador) {
+        jugadorService.actualizarEstadisticasVictoria(nombreGanador);
+    }
+
+    public void actualizarEstadisticasEmpate(String nombreJugador1, String nombreJugador2) {
+        jugadorService.actualizarEstadisticasEmpate(nombreJugador1, nombreJugador2);
+    }
+
 
     public Object getsimboloJugador1() {
         return simboloJugador1;

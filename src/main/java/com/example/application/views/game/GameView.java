@@ -3,7 +3,6 @@ package com.example.application.views.game;
 import com.example.application.TicTacToeGame;
 import com.example.application.views.MainLayout;
 import com.example.application.views.mymain.MyMainView;
-import com.example.application.views.stats.EstadisticasView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -81,19 +80,8 @@ public class GameView extends VerticalLayout implements HasUrlParameter<String> 
         add(new Hr());
         add(ganaXTexto);
         add(ganaOTexto);
-//        add(reiniciarVictoriasBoton());
-        add(crearBotonEstadisticas());
     }
 
-
-
-
-//    private Button reiniciarVictoriasBoton() {
-//        Button reiniciarVictoriasBoton = new Button("Reiniciar Victorias");
-//        reiniciarVictoriasBoton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        reiniciarVictoriasBoton.addClickListener(e -> reiniciarVictorias());
-//        return reiniciarVictoriasBoton;
-//    }
 
     private void reiniciarVictorias() {
         ganaX = 0;
@@ -110,41 +98,34 @@ public class GameView extends VerticalLayout implements HasUrlParameter<String> 
         return boton;
     }
 
+
+
     private void clicksBotonesTablero(int fila, int colum) {
         Button botonClick = botonesTablero[fila][colum];
 
-        // Verifica si la celda ya está ocupada
         if (!botonClick.getText().isEmpty()) {
-            // La celda ya está ocupada, puedes mostrar un mensaje o simplemente ignorar el clic.
             return;
         }
 
-        // Realiza la jugada en el modelo del juego
         ticTacToe.hacerMovimiento(fila, colum);
-
-        // Obtén el símbolo del jugador actual (X o O)
-        String simboloJugadorActual = ticTacToe.getsimboloJugadorActual();
-
-        simboloJugadorActual = simboloJugadorActual.equals("X") ? "O" : "X";
-
-        // Establece el símbolo en la celda
+        String simboloJugadorActual = ticTacToe.getsimboloJugadorActual().equals("X") ? "O" : "X";
         botonClick.setText(simboloJugadorActual);
 
         if (ticTacToe.ganaJuego()) {
             String simboloGanador = ticTacToe.getsimboloJugadorActual();
+            String nombreGanador = simboloGanador.equals(ticTacToe.getsimboloJugador1()) ? ticTacToe.getNombreJugador1() : ticTacToe.getNombreJugador2();
             mostrarGanador(simboloGanador);
             contadorVictorias(simboloGanador);
-            return;
-        }
 
-        // Verifica si el juego está en empate
-        if (ticTacToe.empate()) {
+            // Actualizar estadísticas de victoria
+            ticTacToe.actualizarEstadisticasVictoria(nombreGanador);
+
+        } else if (ticTacToe.empate()) {
             empate();
-            // Puedes reiniciar el juego o realizar otras acciones después de un empate.
-            return;
-        }
 
-        // No es necesario cambiar al siguiente jugador aquí, ya que se maneja en TicTacToeGame.hacerMovimiento()
+            // Actualizar estadísticas de empate
+            ticTacToe.actualizarEstadisticasEmpate(ticTacToe.getNombreJugador1(), ticTacToe.getNombreJugador2());
+        }
     }
 
 
@@ -246,12 +227,6 @@ public class GameView extends VerticalLayout implements HasUrlParameter<String> 
         textoGanador.setValue("");
     }
 
-    private Button crearBotonEstadisticas() {
-        Button botonEstadisticas = new Button("Ver estadísticas");
-        botonEstadisticas.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        botonEstadisticas.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate(EstadisticasView.class))); // Reemplaza "ruta-de-estadisticas" con la ruta real
-        return botonEstadisticas;
-    }
 
     private Button crearBotonRegreso() {
         Button botonRegreso = new Button("Regresar a escoger jugador");

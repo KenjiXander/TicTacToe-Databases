@@ -2,7 +2,6 @@ package com.example.application.views;
 
 import com.example.application.views.game.GameView;
 import com.example.application.views.mymain.MyMainView;
-import com.example.application.views.stats.EstadisticasView;  // Importa la clase EstadisticasView
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;
@@ -54,7 +53,6 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new SideNavItem("Elegir ficha", MyMainView.class, LineAwesomeIcon.AIRBNB.create()));
         nav.addItem(new SideNavItem("Tres en raya", GameView.class, LineAwesomeIcon.ANDROID.create()));
-        nav.addItem(new SideNavItem("Estadísticas", EstadisticasView.class, LineAwesomeIcon.CHART_BAR.create())); // Añade la pestaña Estadísticas
 
         return nav;
     }
