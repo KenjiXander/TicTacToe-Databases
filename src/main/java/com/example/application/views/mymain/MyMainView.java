@@ -89,21 +89,28 @@ public class MyMainView extends VerticalLayout {
         nombreJugador2 = new TextField("Nombre del Jugador 2");
         Button registrarJugador2 = new Button("Registrar", e -> empezarJuego());
 
-//        Button escogerX = new Button("Jugar con X", e -> {
-//            simboloJugador1 = "X";
-//            ingresarJugador2();
-//        });
-//        escogerX.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//
-//        Button escogerO = new Button("Jugar con O", e -> {
-//            simboloJugador1 = "O";
-//            ingresarJugador2();
-//        });
-//        escogerO.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        // Agregar la cuadrícula (Grid) de jugadores para seleccionar el jugador 2
+        gridJugadores = new Grid<>(Jugador.class);
+        gridJugadores.setColumns("nombre");
+        gridJugadores.asSingleSelect().addValueChangeListener(event -> seleccionarJugador2(event.getValue()));
 
-        contentLayout.add(nombreJugador2, registrarJugador2);
-//        contentLayout.add(nombreJugador2, registrarJugador2, escogerX, escogerO);
+        contentLayout.add(nombreJugador2, registrarJugador2, gridJugadores);
+        actualizarListaJugadores2(); // Método para actualizar la lista excluyendo al jugador 1 seleccionado
     }
+
+    private void seleccionarJugador2(Jugador jugador) {
+        jugadorSeleccionado2 = jugador;
+        nombreJugador2.setValue(jugador.getNombre());
+    }
+
+    private void actualizarListaJugadores2() {
+        List<Jugador> jugadores = jugadorService.findAllJugadores();
+        if (jugadorSeleccionado1 != null) {
+            jugadores.remove(jugadorSeleccionado1); // Excluir al jugador 1 seleccionado
+        }
+        gridJugadores.setItems(jugadores);
+    }
+
 
 
 //    private void empezarJuego() {
@@ -127,16 +134,24 @@ public class MyMainView extends VerticalLayout {
         }
     }
 
+
+
     private void seleccionarJugador(Jugador jugador) {
-        if (jugadorSeleccionado1 == null) {
-            jugadorSeleccionado1 = jugador;
-            nombreJugador1.setValue(jugador.getNombre());
-            actualizarListaJugadores(); // Actualizar la lista para excluir al jugador seleccionado
-        } else {
-            jugadorSeleccionado2 = jugador;
-            nombreJugador2.setValue(jugador.getNombre());
-        }
+        jugadorSeleccionado1 = jugador;
+        nombreJugador1.setValue(jugador.getNombre());
     }
+
+
+//    private void seleccionarJugador(Jugador jugador) {
+//        if (jugadorSeleccionado1 == null) {
+//            jugadorSeleccionado1 = jugador;
+//            nombreJugador1.setValue(jugador.getNombre());
+//            actualizarListaJugadores(); // Actualizar la lista para excluir al jugador seleccionado
+//        } else {
+//            jugadorSeleccionado2 = jugador;
+//            nombreJugador2.setValue(jugador.getNombre());
+//        }
+//    }
 
     private void actualizarListaJugadores() {
         List<Jugador> jugadores = jugadorService.findAllJugadores();

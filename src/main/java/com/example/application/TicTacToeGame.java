@@ -21,7 +21,7 @@ public class TicTacToeGame {
         return jugadorActual;
     }
 
-//     Nuevo método para establecer el símbolo del jugador inicial
+    //     Nuevo método para establecer el símbolo del jugador inicial
     public void setSimboloJugadorPrincipio(String simbolo) {
         simboloJugadorPrincipio = simbolo;
         jugadorActual = simbolo;  // Establece el primer jugador como el jugador inicial
