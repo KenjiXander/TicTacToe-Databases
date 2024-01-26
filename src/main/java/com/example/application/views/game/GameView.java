@@ -149,93 +149,21 @@ public class GameView extends VerticalLayout implements HasUrlParameter<String> 
 
 
 
-
-
-
-
-
     private void mostrarGanador(String simboloGanador) {
         String nombreGanador = "";
         String simboloFinal = "";
 
-        // Verifica quién es el ganador y qué símbolo eligió
         if (simboloGanador.equals("X")) {
-            if (ticTacToe.getSimboloJugador1().equals("X")) {
-                nombreGanador = ticTacToe.getNombreJugador1();
-            } else {
-                nombreGanador = ticTacToe.getNombreJugador2();
-            }
-            simboloFinal = "X";
+            nombreGanador = simboloGanador.equals("X") ? ticTacToe.getNombreJugador2() : ticTacToe.getNombreJugador1();
+
         } else if (simboloGanador.equals("O")) {
-            if (ticTacToe.getSimboloJugador1().equals("O")) {
-                nombreGanador = ticTacToe.getNombreJugador1();
-            } else {
-                nombreGanador = ticTacToe.getNombreJugador2();
-            }
-            simboloFinal = "O";
+            nombreGanador = simboloGanador.equals("O") ? ticTacToe.getNombreJugador1() : ticTacToe.getNombreJugador2();
         }
 
+        simboloFinal = simboloGanador.equals("X") ? "O" : "X";
         textoGanador.setValue("Ganador: " + nombreGanador + " (" + simboloFinal + ")");
         desactivarBotonesTablero();
     }
-
-
-
-
-
-
-
-
-
-//    private void mostrarGanador(String simboloGanador) {
-//        String nombreGanador = "";
-//        String simboloFinal = "";
-//
-//        textoGanador.setValue(ticTacToe.getsimboloJugadorActual());
-//
-//        if (ticTacToe.getsimboloJugadorActual().equals("O")) {
-//            nombreGanador = simboloGanador.equals("O") ? ticTacToe.getNombreJugador1() : ticTacToe.getNombreJugador2();
-//            simboloFinal = simboloGanador.equals("X") ? "X" : "O";
-//        } else {
-//            nombreGanador = simboloGanador.equals("O") ? ticTacToe.getNombreJugador2() : ticTacToe.getNombreJugador1();
-//            simboloFinal = simboloGanador.equals("X") ? "X" : "O";
-//        }
-//
-//
-////        simboloFinal = simboloGanador.equals("X") ? "O" : "X";
-//        textoGanador.setValue("Ganador: " + nombreGanador + " (" + simboloGanador + ")");
-//        desactivarBotonesTablero();
-//    }
-
-
-
-
-
-
-
-//    private void mostrarGanador(String simboloGanador) {
-//        String nombreGanador = "";
-//        String simboloFinal = "";
-//
-//        if (simboloGanador.equals("X")) {
-//            nombreGanador = simboloGanador.equals("X") ? ticTacToe.getNombreJugador2() : ticTacToe.getNombreJugador1();
-//
-//        } else if (simboloGanador.equals("O")) {
-//            nombreGanador = simboloGanador.equals("O") ? ticTacToe.getNombreJugador1() : ticTacToe.getNombreJugador2();
-//        }
-//
-//        simboloFinal = simboloGanador.equals("X") ? "O" : "X";
-//        textoGanador.setValue("Ganador: " + nombreGanador + " (" + simboloFinal + ")");
-//        desactivarBotonesTablero();
-//    }
-
-
-
-
-
-
-
-
 
 
 
